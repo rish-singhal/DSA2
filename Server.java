@@ -82,7 +82,7 @@ public class Server implements Servintf {
     // System.out.println("Edge Added");
   }
 
-  public Integer getMst(String id) throws RemoteException {
+  public long getMst(String id) throws RemoteException {
     Ugraph graph = gmap.get(id);
     Edge edge[] = new Edge[graph.adj.size()];
     int k = 0;
@@ -91,14 +91,14 @@ public class Server implements Servintf {
       k++;
     }
     Arrays.sort(edge);
-    for (int i = 1; i <= graph.v; i++) {
-      graph.dsu[i] = -1;
+    for (int i = 0; i <= gmap.get(id).v; i++) {
+      gmap.get(id).dsu[i] = -1;
     }
-    int mst = 0;
-    int ch = 0;
-    for (int i = 0; i < graph.adj.size(); i++) {
+    long mst = 0;
+    long ch = 0;
+    for (int i = 0; i < gmap.get(id).adj.size(); i++) {
       if (par(id, edge[i].v) != par(id, edge[i].u)) {
-        mst += edge[i].w;
+        mst += (long) edge[i].w;
         join(id, edge[i].v, edge[i].u);
         ch++;
       }
@@ -107,7 +107,7 @@ public class Server implements Servintf {
     if (ch == graph.v - 1)
       return mst;
     else
-      return -1;
+      return (long) -1;
   }
 
   public Server() throws RemoteException {
@@ -126,7 +126,6 @@ public class Server implements Servintf {
       LocateRegistry.createRegistry(servp);
 
       Naming.rebind("rmi://localhost:" + args[0] + "/mst", obj);
-      System.out.println("Server Ready");
 
     } catch (Exception e) {
       System.err.println("Server exception: " + e.toString());

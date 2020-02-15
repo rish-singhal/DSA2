@@ -30,8 +30,8 @@ public class Client {
             stub.addEdge(id, u, v, w);
           } else if (inp1.equals("get_mst")) {
             String id = input.next();
-            Integer ans = stub.getMst(id);
-            System.out.println(ans.toString());
+            long ans = stub.getMst(id);
+            System.out.println(Long.toString(ans));
           } else {
             stub.printMsg();
           }
